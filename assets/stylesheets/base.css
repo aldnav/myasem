@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+     box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+#container {
+    height: 100%;
+    min-height: 100%;
+    position: relative;
+}
+
+header {
+    position: relative;
+    width: 100%;
+    height: 45px;
+    background-color: #141414;
+}
+
+header #title {
+    color: #45525A;
+    text-align: center;
+    font-family: "Consolas";
+    padding-top: 14px;
+}
+
+#frame-panel {
+    background-color: #1A2125;
+    height: 90%;
+    padding-bottom: 45px;
+}
+
+.frame {
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro", monospace;
+    height: 100%;
+}
+
+.frame-title {
+    background-color: #232C31;
+    color: white;
+    line-height: 40px;
+    display: inline-block;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.frame-body {
+    color: white;
+    background-color: #232C31;
+    height: 100%;
+    margin-top: -1px;
+    border-top: 1px solid black;
+    padding-top: 12px;
+}
+
+.frame-body textarea {
+    width: 97%;
+    height: 100%;
+    font-size: 12px;
+    margin-left: 3%;
+    border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background: none;
+    color: white;
+}
+
+#button-panel {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #1A2125;
+    border-top: 1px solid black;
+}
