@@ -105,3 +105,8 @@ header #title {
     background-color: #1A2125;
     border-top: 1px solid black;
 }
+
+pre{
+    white-space: pre-wrap;
+    background: #EEE;
+}
