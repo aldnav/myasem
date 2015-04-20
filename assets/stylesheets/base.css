@@ -78,7 +78,7 @@ header #title {
     background-color: #323A43;
 }
 
-.frame-body textarea {
+.frame-body #text-area {
     position: relative;
     float: left;
     width: 97%;
