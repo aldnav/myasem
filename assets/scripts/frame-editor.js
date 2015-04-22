@@ -1,6 +1,8 @@
 $(document).ready(function() {
+    key_listeners.activate();
     editor.initialize("#text-area");
     editor.listen();
+    editor.highlighter();
 });
 
 var editor = {
@@ -11,10 +13,14 @@ var editor = {
     listen: function() {
         // catch Return key and replace divs with br
         editor.text_area.keypress(function(event) {
-            if (event.which != 13)
-                return true;
-            document.execCommand('insertHTML', false, '<br><br>');
-            return false;
-        });
+            if (event.which == 13){
+                document.execCommand('insertHTML', false, '<br><br>');
+                return false;
+            } 
+            
+        })
+    }, 
+    highlighter: function() {
+        console.log(editor.text_area.insertHTML);
     }
 };
