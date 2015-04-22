@@ -1,6 +1,12 @@
 $(document).ready(function() {
     editor.initialize();
     editor.listen();
+
+
+
+    $("textarea").keypress(function(){
+        console.log($(this).val());
+    });
 });
 
 var editor = {
