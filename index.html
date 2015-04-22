@@ -14,7 +14,24 @@
             <div class="frame-title">script.myasem</div>
             <div class="frame-body">
                 <div class="line-area"></div>
-                <div id = "text-area" contenteditable="true"></div>
+                <div id = "text-area" contenteditable="true">
+                    begin <br>
+                    read N <br>
+                    pushv N <br>
+                    pushi 2 <br>
+                    mod <br/>
+                    pushi 0 <br/>
+                    jeq even <br/>
+                    pushi 0 <br/>
+                    pop ans <br/>
+                    jmp stop <br/>
+                    even: <br/>
+                    pushi 1 <br/>
+                    pop ans <br/>
+                    stop: <br/>
+                    disp ans <br/>
+                    end                  
+                </div>
             </div>
         </div>
     </div>
