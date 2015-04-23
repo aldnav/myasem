@@ -1,18 +1,3 @@
-var higlighter = {
-	begin: {
-		color: "red",
-		name: "begin"
-	},									
-	read: {
-		color: "blue",
-		name: "read"
-	},
-	deane: {
-		color: "pink",
-		name: "deane<3"
-	}
-}
-
 var symbol_table = {
 	'read':  "01",
 	'disp':  "02", 
@@ -23,10 +8,11 @@ var symbol_table = {
 	'jmp':   "07", 
 	'jl':    "08", 
 	'jg':    "09", 
-	'je':    "10", 
+	'jeq':   "10", 
 	'add':   "12",
 	'sub':   "13", 
-	'cmp':   "14", 
+	'cmp':   "14",
+	'proc':  "15",
 	'begin': "00", 
 	'end':   "11",
 	'error': "99"

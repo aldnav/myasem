@@ -11,52 +11,54 @@ var run = {
 		var machine_code = run.translation(m);
 	},
 	translation : function(token) {
+		console.log(token);
+		var machine_code = new Array(token.length)
 		for (var i = 0; i < token.length; i++) {
-			if (symbol_table[token[i].split(" ")[0]] !== undefined) {
-				token[i] = token[i].replace(token[i].split(" ")[0],symbol_table[token[i].split(" ")[0]]);
-			} else {
-				token[i] = token[i].replace(token[i],symbol_table['error']);
-			}
-		};
-		for (var i = 0; i < token.length; i++) {
-			if (token[i].split(" ")[1] === undefined) {
-				token[i] = token[i]+"00";
-			} else {
-				if(resources.memory.indexOf(token[i].split(" ")[1]) > 0) {
-					if (resources.memory.indexOf(token[i].split(" ")[1]) < 10 ) {
-						token[i] = token[i].replace(token[i].split(" ")[1], "0"+resources.memory.indexOf(token[i].split(" ")[1])).replace(" ","");
-					} else {
-						token[i] = token[i].replace(token[i].split(" ")[1], resources.memory.indexOf(token[i].split(" ")[1])).replace(" ","");
-					}
-					token[i] = token[i].replace(token[i].split(" ")[1], resources.memory.indexOf(token[i].split(" ")[1])).replace(" ", "");
-				} else if (!isNumeric(token[i].split(" ")[1])){
-					for (var j = 30; j < 40; j++) {
-						if (resources.memory[j] === undefined) {
-							resources.memory[j] = token[i].split(" ")[1];
-							token[i] = token[i].replace(token[i].split(" ")[1], j).replace(" ","");
-							break;
-						}
-					};
+			if (typeof symbol_table[token[i].split(" ")[0]] !== 'undefined') {
+				if (token[i].split(" ").length === 1) {
+					machine_code[i] = symbol_table[token[i]]+" 00";
 				} else {
-					for (var j = 1; j < 30; j++) {
-						if (resources.memory[j] === undefined) {
-							resources.memory[j] = token[i].split(" ")[1];
-							if (j < 10 ) {
-								token[i] = token[i].replace(token[i].split(" ")[1], "0"+j).replace(" ","");
+					if (parseInt(symbol_table[token[i].split(" ")[0]]) >= 7 && parseInt(symbol_table[token[i].split(" ")[0]]) <= 10) {
+						var index = token.indexOf(token[i].split(" ")[1]+":");
+						if (parseInt(index) < 10) index = "0"+index;
+						machine_code[i] = symbol_table[token[i].split(" ")[0]] + " " + index;
+					} else {
+						if (isNumeric(token[i].split(" ")[1])) {
+							if (token[i].split(" ")[1] < 10)
+								machine_code[i] = symbol_table[token[i].split(" ")[0]] +" 0"+token[i].split(" ")[1];
+							else
+								machine_code[i] = symbol_table[token[i].split(" ")[0]] +" " +token[i].split(" ")[1];
+						}else {
+							if (resources.memory.indexOf(token[i].split(" ")[1]) > 29){
+								machine_code[i] = symbol_table[token[i].split(" ")[0]] +" " +resources.memory.indexOf(token[i].split(" ")[1]);
 							} else {
-								token[i] = token[i].replace(token[i].split(" ")[1], j).replace(" ","");
+								for (var j = 30; j < 40; j++) {
+									if (typeof resources.memory[j] === 'undefined' ) {
+										resources.memory[j] = token[i].split(" ")[1];
+										machine_code[i] = symbol_table[token[i].split(" ")[0]] +" " + j;
+										break;
+									}
+								};
 							}
-							break;
 						}
-					};
+					}
 				}
-			}
+			} else {
+				if (token[i].indexOf(":") > 0) {
+					if (i <10) {
+						machine_code[i] = "0" + i+ " 00";
+					} else {
+						machine_code[i] = i + " 00";
+					}					
+				} else {
+					machine_code[i] = symbol_table['error'] + " 00";
+				}
+			} 
 		};
 		console.log(resources.memory);
-		for (var i = 0; i < token.length; i++) {
-			console.log(token[i]);
+		for (var i = 0; i < machine_code.length; i++) {
+			console.log(token[i] +" =>"+machine_code[i]);
 		};
-		
 	},
 	get_output : function() {
 		var output = []
