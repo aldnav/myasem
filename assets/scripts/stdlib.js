@@ -1,3 +1,4 @@
+var input = "";
 var symbol_table = {
 	'read':  "01",
 	'disp':  "02", 
@@ -15,9 +16,106 @@ var symbol_table = {
 	'proc':  "15",
 	'begin': "00", 
 	'end':   "11",
-	'error': "99"
+	'error': "99",
+	get_key : function (value) {
+		for (var sym in symbol_table) {
+			if (sym !== 'get_key') {
+				if (symbol_table[sym] === value)
+					return sym;
+			}
+		}
+	}
 }
 
+var _commands = {
+	// begin
+	'00' : function(params) {
+		//check errors
+		if (params['mla'].length > 30) {
+			_commands.return_error({'type': 'error', 'message':'Overflow error','ip' : -1});
+		} else if (params['ip'] > 0){
+			_commands.return_error({'type': 'error', 'message':'Overflow error','ip' : -1});
+		} else {
+			for (var i = 0; i < params['mla'].length; i++) {
+				resources.memory[i] = params['mla'][i];
+			};
+			return {'type': 'good', 'message':'success','ip' : params['ip']}; 
+		}
+	},
+	// read 
+	'01' : function(params) {
+		input = 2;
+		return {'type': 'good', 'message':'success','ip' : params['ip']}; 
+
+	},
+	// display 
+	'02' : function(params) {
+		console.log("fuck");
+	},
+	// push i
+	'03' : function(params) {
+		console.log("fuck");	
+	},
+	// push variable
+	'04' : function(params) {
+		console.log("fuck");
+	},
+	// pop
+	'05' : function(params) {
+		console.log("fuck");
+	},
+	// mod
+	'06' : function(params) {
+		console.log("fuck");
+	},
+	// jmp
+	'07' : function(params) {
+		console.log("fuck");
+	},
+	// jl
+	'08' : function(params) {
+		console.log("fuck");
+	},
+	// jg 
+	'09' : function(params) {
+		console.log("fuck");
+	},
+	// jeq
+	'10' : function(params) {
+		console.log("fuck");
+	},
+	// end
+	'11' : function(params) {
+		console.log("fuck");
+	},
+	// add
+	'12' : function(params) {
+		console.log("fuck");
+	},
+	// sub
+	'13' : function(params) {
+		console.log("fuck");
+	},
+	// cmp 
+	'14' : function(params) {
+		console.log("fuck");
+	},
+	// proc
+	'15' : function(params) {
+		console.log("fuck");
+	},
+	return_error : function(params) {
+		console.log('error');
+		return params;
+	}
+}
+
+
+var resources = {
+	memory : new Array(40),
+	ram : new Array(5),
+
+}
 
 // helper functions
 

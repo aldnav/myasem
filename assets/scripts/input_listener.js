@@ -1,17 +1,20 @@
-var resources = {
-	memory : new Array(40),
-	ram : new Array(5),
-
-}
-
 var run = {
 	text_area: $('#text-area'),
 	build : function() {
 		var m = run.get_output();
-		var machine_code = run.translation(m);
+		var translation_output = run.translation(m);
+		if (translation_output['type'] == 'error'){
+			for (var i = 0; i < translation_output['data'].length; i++) {
+				// dislay errors
+				console.log(translation_output['data'][i]);
+			};
+		} else {
+				compile.mla = translation_output['data'];
+				compile.run();
+		}
+
 	},
 	translation : function(token) {
-		console.log(token);
 		var machine_code = new Array(token.length)
 		for (var i = 0; i < token.length; i++) {
 			if (typeof symbol_table[token[i].split(" ")[0]] !== 'undefined') {
@@ -24,10 +27,14 @@ var run = {
 						machine_code[i] = symbol_table[token[i].split(" ")[0]] + " " + index;
 					} else {
 						if (isNumeric(token[i].split(" ")[1])) {
-							if (token[i].split(" ")[1] < 10)
-								machine_code[i] = symbol_table[token[i].split(" ")[0]] +" 0"+token[i].split(" ")[1];
-							else
-								machine_code[i] = symbol_table[token[i].split(" ")[0]] +" " +token[i].split(" ")[1];
+							if (token[i].split(" ")[1].length <= 2) {
+								if (token[i].split(" ")[1] < 10)
+									machine_code[i] = symbol_table[token[i].split(" ")[0]] +" 0"+token[i].split(" ")[1];
+								else
+									machine_code[i] = symbol_table[token[i].split(" ")[0]] +" " +token[i].split(" ")[1];	
+							} else 
+								machine_code[i] = symbol_table[token[i].split(" ")[0]] +" " +"e99";	
+							
 						}else {
 							if (resources.memory.indexOf(token[i].split(" ")[1]) > 29){
 								machine_code[i] = symbol_table[token[i].split(" ")[0]] +" " +resources.memory.indexOf(token[i].split(" ")[1]);
@@ -55,10 +62,17 @@ var run = {
 				}
 			} 
 		};
-		console.log(resources.memory);
+		error = [];
 		for (var i = 0; i < machine_code.length; i++) {
-			console.log(token[i] +" =>"+machine_code[i]);
+			err = run.translation_error(machine_code[i], i+1);
+			if (typeof err !== 'undefined') {
+				error.push(err);
+			}
 		};
+		if (error.length > 1)
+			return {'type' : 'error', 'data' : error};
+		else 
+			return {'type' : 'mla', 'data' : machine_code};
 	},
 	get_output : function() {
 		var output = []
@@ -69,12 +83,31 @@ var run = {
 			}
 		}
 		return output;
+	},
+	translation_error : function (token, line) {
+		token1 = token.split(" ")[0].trim();
+		token2 = token.split(" ")[1].trim();
+		console.log(token1,token2);
+		if (token1 == '99')
+			return 'error 99: command not found:\n \tat line ' + line;
+		else if (token2 == 'e99')
+			return 'error 100: parameter not in 2 bit\n \tat line ' + line;
+		else if (token2 == '0-1')
+			return 'error 0-1: label not found\n \tat line ' + line;
 	}
-
 }
 
 var compile = {
-
+	mla: [],
+	run : function() {
+		resources.memory = new Array(40);
+		_commands['00']({'mla':compile.mla,'ip': 0});	
+		console.log(resources.memory);
+		// for (var i = 0; i < compile.mla.length; i++) {
+		// 	var com = compile.mla[i].split(" ")[0];
+		// 	_commands[com]();	
+		// };
+	}
 }
 
 var key_listeners = {
