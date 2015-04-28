@@ -30,6 +30,12 @@ var symbol_table = {
 var elements = {
 	read_console : function() {
 		return "<div class = 'console-line'><span class = 'alert'>Read input:</span> <div class = 'current-input' contentEditable='true'>&nbsp;</div></div>";
+	},
+	display_console : function(n,type) {
+		if (type == 0)
+			return "<div class = 'console-line'><span class = 'alert'>"+n+"</span> <div class = 'current-input' contentEditable='true'>&nbsp;</div></div>";	
+		else
+			return "<div class = 'console-line'><span class = 'error'>"+n+"</span></div>";	
 	}
 }
 var _commands = {
@@ -38,7 +44,7 @@ var _commands = {
 		//check errors
 		if (params['mla'].length > 30) {
 			_commands.return_error({'type': 'error', 'message':'Overflow error','ip' : -1});
-		} else if (params['ip'] > 0){
+		} else if (params['ip'] >= 0){
 			_commands.return_error({'type': 'error', 'message':'Overflow error','ip' : -1});
 		} else {
 			for (var i = 0; i < params['mla'].length; i++) {
@@ -62,23 +68,46 @@ var _commands = {
 	 //        }
 	 //    });  
 	 //    var myVar = setInterval(function(){console.log("will wait")}, 1000);
-		// console.log('asd');   
-		params['mla'][params['mla']] = input;
-		console.log(params['mla'][params['mla'][params['ip']].split(" ")[1]]);
-		console.log("fuck", params['mla'][params['ip']]);
+		var array_index = parseInt(params['mla'][params['ip']].split(" ")[1]);
+		resources.memory[array_index] = input;
 		return {'type': 'wait', 'message':'success','ip' : params['ip']};
 	},
 	// display 
 	'02' : function(params) {
-		console.log("fuck");
+		var array_index = parseInt(params['mla'][params['ip']].split(" ")[1]);
+		if (array_index >= 30) {
+			var item = resources.memory[array_index];
+			if (typeof item == 'undefined')
+				$('#console').append($(elements.display_console("Error: index "+array_index+" cant be found or returned nothing",1)));
+			else 
+				$('#console').append($(elements.display_console(item,0)));
+		}
 	},
 	// push i
 	'03' : function(params) {
-		console.log("fuck");	
+		var integer = parseInt(params['mla'][params['ip']].split(" ")[1]);
+		if (resources.ram_length() < 5 ){
+			if (isNumeric(integer)) {
+				resources.ram.push(integer)
+			} else {
+				$('#console').append($(elements.display_console("Error: not an integer",1)));
+			}
+		} else {
+			$('#console').append($(elements.display_console("Error: stack overflow",1)));
+		}
+		return {'type': 'wait', 'message':'success','ip' : params['ip']};		
 	},
 	// push variable
 	'04' : function(params) {
-		console.log("fuck");
+		var array_index = parseInt(params['mla'][params['ip']].split(" ")[1]);
+		if (resources.ram_length < 5 ){
+			if (isNumeric(array_index) ) {
+				resources.ram.push(resources.memory[array_index])
+			} else {
+				$('#console').append($(elements.display_console("Error: cant push integer",1)));
+			}
+		}
+		return {'type': 'wait', 'message':'success','ip' : params['ip']};
 	},
 	// pop
 	'05' : function(params) {
@@ -125,7 +154,7 @@ var _commands = {
 		console.log("fuck");
 	},
 	return_error : function(params) {
-		console.log('error');
+		// console.log('error');
 		return params;
 	}
 }
@@ -134,6 +163,13 @@ var _commands = {
 var resources = {
 	memory : new Array(40),
 	ram : new Array(5),
+	ram_length: function(){
+		for (var i = 0; i < this.ram.length; i++) {
+			if (typeof this.ram[i] == 'undefined') {
+				return i;
+			};
+		};
+	}
 
 }
 

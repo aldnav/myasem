@@ -102,13 +102,13 @@ var compile = {
 	instruction_pointer: 0,
 	run : function() {
 		resources.memory = new Array(40);
-		var m = _commands['01']({'mla':compile.mla,'ip': 01});
-		// console.log(m);
-		console.log(resources.memory);
-		// for (var i = 0; i < compile.mla.length; i++) {
-		// 	var com = compile.mla[i].split(" ")[0];
-		// 	_commands[com]();	
-		// };
+		// var m = _commands['02']({'mla':compile.mla,'ip': 14});
+		// // console.log(m);
+		console.log(compile.mla);
+		for (var i = 0; i < compile.mla.length; i++) {
+			var com = compile.mla[i].split(" ")[0];
+			_commands[com]({'mla':compile.mla,'ip': 14});	
+		};
 	}, 
 	execute: function(command) {
 
