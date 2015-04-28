@@ -2,12 +2,14 @@
     width: 405px;
     height: 250px;
     background-color: rgba(0,0,0,0.4);
-    float: right;
+    position: absolute;
+    right: 10px;
     margin-right: 20px;
     margin-top: 18px;
     padding: 8px;
     border: 1px solid black;
     border-radius: 4px;
+    z-index: 2;
 }
 
 #console-frame pre {
@@ -23,10 +25,11 @@
     height: 100%;
     background-color: #17171A;
     overflow-x: hidden;
-    text-align: left;
+    text-align: left !important;
     padding-top: 10px;
     padding-left: 10px;
     color: white;
+    font-size: 12px;
 }
 
 #console .error {
@@ -35,4 +38,21 @@
 
 #console .alert {
     color: #27E987;
+}
+.console-line {
+    width: 1000%;
+    height: 20px;
+}
+/*.console-line::before {
+    content: ">";
+}*/
+
+span .normal {
+    display: inline;
+}
+.current-input {
+    display: inline;
+    outline: none;
+    border: none;
+    width: 100%;
 }

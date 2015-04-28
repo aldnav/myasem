@@ -27,6 +27,11 @@ var symbol_table = {
 	}
 }
 
+var elements = {
+	read_console : function() {
+		return "<div class = 'console-line'><span class = 'alert'>Read input:</span> <div class = 'current-input' contentEditable='true'>&nbsp;</div></div>";
+	}
+}
 var _commands = {
 	// begin
 	'00' : function(params) {
@@ -45,8 +50,23 @@ var _commands = {
 	// read 
 	'01' : function(params) {
 		input = 2;
-		return {'type': 'good', 'message':'success','ip' : params['ip']}; 
-
+		// var ent_key = false;
+		// $('.current-input').attr('contentEditable',false);
+		// $('#console').append($(elements.read_console()));
+		// $('.current-input').last().focus();
+	 //    $('#console').on('keypress','.console-line .current-input', function(e) {
+	 //        if (e.which == 13) {
+	 //            e.preventDefault();
+	 //            clearInterval(myVar);
+	 //            $(this).attr('contentEditable',false);
+	 //        }
+	 //    });  
+	 //    var myVar = setInterval(function(){console.log("will wait")}, 1000);
+		// console.log('asd');   
+		params['mla'][params['mla']] = input;
+		console.log(params['mla'][params['mla'][params['ip']].split(" ")[1]]);
+		console.log("fuck", params['mla'][params['ip']]);
+		return {'type': 'wait', 'message':'success','ip' : params['ip']};
 	},
 	// display 
 	'02' : function(params) {
@@ -138,3 +158,4 @@ var replaceHtmlEntites = (function() {
 var isNumeric = function(n) {
 	return !isNaN(parseFloat(n)) && isFinite(n);	
 }
+
