@@ -3,6 +3,7 @@
 <head>
     <title>MyASEM</title>
     <link rel="stylesheet" type="text/css" href="assets/stylesheets/base.css">
+    <link rel="stylesheet" type="text/css" href="assets/stylesheets/console.css">
 </head>
 <body>
 <div id="container">
@@ -10,6 +11,10 @@
         <p id="title">myasempa</p>
     </header>
     <div id="frame-panel">
+        <div id="console-frame">
+            <pre id="console">
+            </pre>
+        </div>
         <div class="frame">
             <div class="frame-title">script.myasem</div>
             <div class="frame-body">
@@ -18,7 +23,12 @@
             </div>
         </div>
     </div>
-    <div id="button-panel"></div>
+    <div id="button-panel">
+        <div id="button-group">
+            <a class="btn btn-blue" href="">Save & Submit Code</a>
+            <a class="btn btn-black" href="">Reset Code</a>
+        </div>
+    </div>
     <script src="assets/scripts/jquery-1.11.2.min.js" type="text/javascript"></script>
     <script src="assets/scripts/frame-editor.js" type="text/javascript"></script>
 </div>
