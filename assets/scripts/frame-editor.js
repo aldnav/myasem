@@ -1,11 +1,10 @@
 $(document).ready(function() {
     editor.initialize();
     editor.listen();
-
-
+    key_listeners.activate();
 
     $("textarea").keypress(function(){
-        console.log($(this).val());
+        console.log($(this).val().split(/\n/));
     });
 });
 
@@ -14,7 +13,6 @@ var editor = {
     linearea: $(".line-area"),
     current_row: 1,
     initialize: function() {
-        console.log("hello world!");
         // initial setup
         editor.linearea.append("<div id=line-"+editor.lines+">"+editor.lines+"</div>");
         var selector = "#line-"+editor.current_row;
