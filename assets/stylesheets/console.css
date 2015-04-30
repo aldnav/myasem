@@ -47,6 +47,14 @@
     color: #27E987;
 }
 
+#mla-frame {
+    width: 200px;
+    height: 235px;
+    float: right;
+    margin-right: 6px;
+    margin-top: 5px;
+}
+
 #symbol-table-frame {
     width: 200px;
     height: 235px;
