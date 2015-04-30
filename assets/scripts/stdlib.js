@@ -133,15 +133,13 @@ var _commands = {
 	},
 	// mod
 	'06' : function(params) {
-		if (resources.ram_length < 2) {
+		if (resources.ram_length() < 2) {
 			$('#console').append($(elements.display_console("Error: Null operand error",1)));
 			return {'type': 'error', 'message':'success','ip' : -1};
 		} else {
 			var x1 = resources.ram.pop();
 			var x2 = resources.ram.pop();
 			var res = parseInt(x2) % parseInt(x1);
-			resources.ram.push(x1);
-			resources.ram.push(x2);
 			resources.ram.push(res);
 			return {'type': 'done', 'message':'success','ip' : parseInt(params['ip']) +1};
 		}
@@ -152,7 +150,7 @@ var _commands = {
 	},
 	// jl
 	'08' : function(params) {
-		if (resources.ram_length < 2) {
+		if (resources.ram_length() < 2) {
 			$('#console').append($(elements.display_console("Error: Null compare error",1)));
 			return {'type': 'error', 'message':'success','ip' : -1};
 		} else {
@@ -168,7 +166,7 @@ var _commands = {
 	},
 	// jg 
 	'09' : function(params) {
-		if (resources.ram_length < 2) {
+		if (resources.ram_length() < 2) {
 			$('#console').append($(elements.display_console("Error: Null compare error",1)));
 			return {'type': 'error', 'message':'success','ip' : -1};
 		} else {
@@ -184,7 +182,7 @@ var _commands = {
 	},
 	// jeq
 	'10' : function(params) {
-		if (resources.ram_length < 2) {
+		if (resources.ram_length() < 2) {
 			$('#console').append($(elements.display_console("Error: Null compare error",1)));
 			return {'type': 'error', 'message':'success','ip' : -1};
 		} else {
@@ -209,7 +207,7 @@ var _commands = {
 	},
 	// add
 	'12' : function(params) {
-		if (resources.ram_length < 2) {
+		if (resources.ram_length() < 2) {
 			$('#console').append($(elements.display_console("Error: Null operand error",1)));
 			return {'type': 'error', 'message':'success','ip' : -1};
 		} else {
@@ -220,8 +218,6 @@ var _commands = {
 				$('#console').append($(elements.display_console("Error: Overflow Error.",1)));
 				return {'type': 'error', 'message':'success','ip' : -1};
 			} else {
-				resources.ram.push(x1);
-				resources.ram.push(x2);
 				resources.ram.push(res);
 				return {'type': 'wait', 'message':'success','ip' : parseInt(params['ip']) +1};
 			}
@@ -229,7 +225,7 @@ var _commands = {
 	},
 	// sub
 	'13' : function(params) {
-		if (resources.ram_length < 2) {
+		if (resources.ram_length() < 2) {
 			$('#console').append($(elements.display_console("Error: Null operand error",1)));
 			return {'type': 'error', 'message':'success','ip' : -1};
 		} else {
@@ -240,8 +236,6 @@ var _commands = {
 				$('#console').append($(elements.display_console("Error: Overflow Error.",1)));
 				return {'type': 'error', 'message':'success','ip' : -1};
 			} else {
-				resources.ram.push(x1);
-				resources.ram.push(x2);
 				resources.ram.push(res);
 				return {'type': 'wait', 'message':'success','ip' : parseInt(params['ip']) +1};
 			}
@@ -249,7 +243,7 @@ var _commands = {
 	},
 	// cmp 
 	'14' : function(params) {
-		if (resources.ram_length < 2) {
+		if (resources.ram_length() < 2) {
 			$('#console').append($(elements.display_console("Error: Null operand error",1)));
 			return {'type': 'error', 'message':'success','ip' : -1};
 		} else {

@@ -7,7 +7,8 @@ var run = {
 		var translation_output = run.translation(m);
 		if (translation_output['type'] == 'error'){
 			for (var i = 0; i < translation_output['data'].length; i++) {
-				// dislay errors
+				var er = "<div class = 'console-line'><span class = 'error'>"+translation_output['data'][i]+"</span></div>";
+				$('#console').append(er);
 				console.log(translation_output['data'][i]);
 			};
 		} else {
@@ -92,11 +93,11 @@ var run = {
 		token2 = token.split(" ")[1].trim();
 		console.log(token1,token2);
 		if (token1 == '99')
-			return 'error 99: command not found:\n \tat line ' + line;
+			return 'error 99: command not found: \tat line ' + line;
 		else if (token2 == 'e99')
-			return 'error 100: parameter not in 2 bit\n \tat line ' + line;
+			return 'error 100: parameter not in 2 bit \tat line ' + line;
 		else if (token2 == '0-1')
-			return 'error 0-1: label not found\n \tat line ' + line;
+			return 'error 0-1: label not found \tat line ' + line;
 	}
 }
 
@@ -105,13 +106,25 @@ var compile = {
 	instruction_pointer: 0,
 	run : function() {
 		resources.memory = new Array(40);
+
 		// var m = _commands['02']({'mla':compile.mla,'ip': 14});
 		// // console.log(m);
-		console.log(compile.mla);
+		var mla_element = $("#mla");
+		for (var i = 0; i < compile.mla.length; i++) {
+			mla_element.append("<span class = 'alert'>"+compile.mla[i]+"</span>")
+		};
+
+		var id_mla_class = $("#mla span");
+		// for (var i = 0; i < id_mla_class.length; i++) {
+		// 	$(id_mla_class[i]).css("background-color","rgba(118, 138, 158, 0.1)");
+		// 	console.log($(id_mla_class[i]));
+		// };
 		i = 0;
 		var com = compile.mla[i].split(" ")[0];
 		var res = _commands[com]({'mla':compile.mla,'ip': i});
+		$(id_mla_class[0]).css("background-color","rgba(118, 138, 158, 0.1)");
 		var interval = setInterval(function() {
+			console.log(resources.ram);	
       		if (res['type'] == 'end' || res['type'] == 'error') {
       			clearInterval(interval);
       		} else if(wait == true){
@@ -121,8 +134,11 @@ var compile = {
       			com = compile.mla[res['ip']].split(" ")[0];
       			i = res['ip'];
       			res = _commands[com]({'mla':compile.mla,'ip': i});
+      			$(id_mla_class).css("background","none");
+      			$(id_mla_class[i]).css("background-color","rgba(118, 138, 158, 0.1)");
       		}
 		}, 1000);
+		$(id_mla_class).css("background","none");
 		// for (var i = 0; i < compile.mla.length; i++) {
 		// 	var com = compile.mla[i].split(" ")[0];
 		// 	console.log(_commands[com]({'mla':compile.mla,'ip': i}));

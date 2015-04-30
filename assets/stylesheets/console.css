@@ -1,28 +1,34 @@
+.console-style  {
+    background-color: rgba(0,0,0,0.4);
+    /*float: right;*/
+    padding: 8px;
+    padding-top: 0;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
 #console-frame {
     width: 405px;
     height: 250px;
     background-color: rgba(0,0,0,0.4);
-    position: absolute;
-    right: 10px;
     margin-right: 20px;
     margin-top: 18px;
     padding: 8px;
     border: 1px solid black;
     border-radius: 4px;
     z-index: 2;
+    margin-right: 20px;
+    margin-top: 18px;
 }
 
-#console-frame pre {
+.console-style pre {
     white-space: pre-wrap;       /* css-3 */
     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
     white-space: -pre-wrap;      /* Opera 4-6 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;
-}
-
-#console {
     width: 100%;
-    height: 100%;
+    height: 92%;
     background-color: #17171A;
     overflow-x: hidden;
     text-align: left !important;
@@ -32,16 +38,30 @@
     font-size: 12px;
 }
 
-#console .error {
+.console-style .frame-title-text {
+    font-family: "Consolas", "Monaco", "Menlo", "Ubuntu Mono", "source-code-pro", monospace;
+    font-size: 0.5em;
+    color: #25ACB3;
+    z-index: 100;
+    margin: 0;
+    padding: 0;
+}
+
+.console-style .error {
     color: crimson;
 }
 
-#console .alert {
+.console-style .alert {
     color: #27E987;
 }
 .console-line {
     width: 1000%;
     height: 20px;
+}
+#mla .alert {
+    display: block;
+    padding-left: 20px;
+    color: #fa9a0a;
 }
 /*.console-line::before {
     content: ">";
@@ -56,3 +76,37 @@ span .normal {
     border: none;
     width: 100%;
 }
+
+#mla-frame {
+    width: 200px;
+    height: 235px;
+    float: right;
+    margin-right: 6px;
+    margin-top: 5px;
+}
+
+#symbol-table-frame {
+    width: 200px;
+    height: 235px;
+    float: right;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+
+.misc-frame {
+    z-index: 100;
+    position: absolute;
+    right: 10px;
+}
+
+.console-style ::-webkit-scrollbar {
+      width: 3px;
+}
+.console-style ::-webkit-scrollbar-track {
+      /*background-color: rgba(0, 0, 0, 0.2);*/
+} /* the new scrollbar will have a flat appearance with the set background color */
+
+.console-style ::-webkit-scrollbar-thumb {
+      background-color: #F07746;
+} /* this will style the thumb, ignoring the track */
+s
