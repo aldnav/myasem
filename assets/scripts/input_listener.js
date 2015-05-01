@@ -11,7 +11,7 @@ var run = {
 			for (var i = 0; i < translation_output['data'].length; i++) {
 				var er = "<div class = 'console-line'><span class = 'error'>"+translation_output['data'][i]+"</span></div>";
 				$('#console').append(er);
-				console.log(translation_output['data'][i]);
+				//console.log(translation_output['data'][i]);
 			};
 		} else {
 				compile.mla = translation_output['data'];
@@ -26,7 +26,7 @@ var run = {
 					machine_code[i] = symbol_table[token[i]]+" 00";
 				} else {
 					if (parseInt(symbol_table[token[i].split(" ")[0]]) >= 7 && parseInt(symbol_table[token[i].split(" ")[0]]) <= 10) {
-						console.log("fuck");
+						//console.log("fuck");
 						var index = token.indexOf(token[i].split(" ")[1]+":");
 						if (parseInt(index) < 10) index = "0"+index;
 						machine_code[i] = symbol_table[token[i].split(" ")[0]] + " " + index;
@@ -36,10 +36,10 @@ var run = {
 								if (token[i].split(" ")[1] < 10)
 									machine_code[i] = symbol_table[token[i].split(" ")[0]] +" 0"+token[i].split(" ")[1];
 								else
-									machine_code[i] = symbol_table[token[i].split(" ")[0]] +" " +token[i].split(" ")[1];	
-							} else 
-								machine_code[i] = symbol_table[token[i].split(" ")[0]] +" " +"e99";	
-							
+									machine_code[i] = symbol_table[token[i].split(" ")[0]] +" " +token[i].split(" ")[1];
+							} else
+								machine_code[i] = symbol_table[token[i].split(" ")[0]] +" " +"e99";
+
 						}else {
 							if (resources.memory.indexOf(token[i].split(" ")[1]) > 29){
 								machine_code[i] = symbol_table[token[i].split(" ")[0]] +" " +resources.memory.indexOf(token[i].split(" ")[1]);
@@ -61,11 +61,11 @@ var run = {
 						machine_code[i] = "15 0" + i;
 					} else {
 						machine_code[i] = "15 " + i;
-					}					
+					}
 				} else {
 					machine_code[i] = symbol_table['error'] + " 00";
 				}
-			} 
+			}
 		};
 		error = [];
 		for (var i = 0; i < machine_code.length; i++) {
@@ -74,9 +74,10 @@ var run = {
 				error.push(err);
 			}
 		};
+
 		if (error.length > 0)
 			return {'type' : 'error', 'data' : error};
-		else 
+		else
 			return {'type' : 'mla', 'data' : machine_code};
 	},
 	get_output : function() {
@@ -92,7 +93,7 @@ var run = {
 	translation_error : function (token, line) {
 		token1 = token.split(" ")[0].trim();
 		token2 = token.split(" ")[1].trim();
-		console.log(token1, token2, line,"fuck")
+		//console.log(token1, token2, line,"fuck")
 		if (token1 == '99')
 			return 'error 99: command not found: \tat line ' + line;
 		else if (token2 == 'e99')
@@ -101,7 +102,21 @@ var run = {
 			return 'error 0-1: label not found \tat line ' + line;
 		else if (token1 !== "00" && token2 !== "00" && line == 1) {
 			return 'error 00: begin not found \tat line ' + line;
-		} 
+		}
+	},
+	save : function () {
+		if (compile.mla.length <= 0)
+			return false;
+		var entry, filename, pom, text;
+		pom = document.createElement("a");
+		filename = "script.mla";
+		text = "";
+		for (var i = 0; i < compile.mla.length; i++) {
+			text += compile.mla[i] + "\r\n";
+		}
+		pom.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
+		pom.setAttribute("download", filename);
+		return pom.click();
 	}
 }
 
@@ -119,25 +134,25 @@ var compile = {
 
 		var id_mla_class = $("#mla span");
 		$(id_mla_class[0]).css("background-color","rgba(118, 138, 158, 0.1)");
-		
+
 		i = 0;
 		var com = compile.mla[i].split(" ")[0];
 		var res = _commands[com]({'mla':compile.mla,'ip': i});
 		var interval = setInterval(function() {
 			$(id_mla_class[i]).css("background-color","rgba(118, 138, 158, 0.1)");
-			console.log(resources.ram);	
+			//console.log(resources.ram);
       		if (res['type'] == 'end' || res['type'] == 'error') {
       			clearInterval(interval);
       		} else if(input_error == true){
       			clearInterval(interval);
 				var er = "<div class = 'console-line'><span class = 'error'>Input error</span></div>";
-				$('#console').append(er);      			
+				$('#console').append(er);
       		} else if(wait == true){
-      			console.log("wait");
+      			//console.log("wait");
       		} else if (i == 0) {
       			i++;
       		}else {
-				console.log(com,res);
+				//console.log(com,res);
       			com = compile.mla[res['ip']].split(" ")[0];
       			i = res['ip'];
       			res = _commands[com]({'mla':compile.mla,'ip': i});
@@ -147,7 +162,8 @@ var compile = {
 		}, 500);
 		$(id_mla_class).css("background","none");
 		//create text file
-	}, 
+
+	},
 	execute: function(command) {
 
 	}
@@ -156,8 +172,8 @@ var compile = {
 var key_listeners = {
 	text_area: $('textarea'),
 	activate : function() {
-		for (var i in key_listeners) 
-			if (i !== 'activate' && i !== 'text_area') 
+		for (var i in key_listeners)
+			if (i !== 'activate' && i !== 'text_area')
 				key_listeners[i]();
 	},
 	ctr_cmd : function() {
@@ -168,11 +184,16 @@ var key_listeners = {
 	    }).keyup(function(e) {
 	        if (e.keyCode == 17) ctrlDown = false;
 	    }).bind('keydown', function(e) {
-	    		if (ctrlDown == true) {	
+	    		if (ctrlDown == true) {
 			    	switch(e.keyCode) {
 			    		case 66 : {
 	    					e.preventDefault();
 			    			run.build();
+			    			break;
+			    		}
+			    		case 83: {
+			    			e.preventDefault();
+			    			run.save();
 			    			break;
 			    		}
 			    	}

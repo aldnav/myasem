@@ -4,7 +4,7 @@ $(document).ready(function() {
     key_listeners.activate();
 
     $("textarea").keypress(function(){
-        console.log($(this).val().split(/\n/));
+        // console.log($(this).val().split(/\n/));
     });
 });
 
