@@ -213,6 +213,7 @@ var key_listeners = {
 	    	var e = jQuery.Event("keydown");
 	    	$('textarea').trigger(e);
 	    	$('textarea').focus();
+	    	compile.mla = []
 	    });
 	},
 	miscellaneous : function() {
