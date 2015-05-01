@@ -166,3 +166,20 @@ header #title {
     background-image: -o-linear-gradient(top, #627c8a, #3b474d);
     background-image: linear-gradient(to bottom, #627c8a, #3b474d);
 }
+
+.btn-green {
+    background: #25b87d;
+    background-image: -webkit-linear-gradient(top, #25b87d, #2aa15b);
+    background-image: -moz-linear-gradient(top, #25b87d, #2aa15b);
+    background-image: -ms-linear-gradient(top, #25b87d, #2aa15b);
+    background-image: -o-linear-gradient(top, #25b87d, #2aa15b);
+    background-image: linear-gradient(to bottom, #25b87d, #2aa15b);
+}
+.btn-green:hover {
+    background: #2ed9ba;
+    background-image: -webkit-linear-gradient(top, #2ed9ba, #37b07f);
+    background-image: -moz-linear-gradient(top, #2ed9ba, #37b07f);
+    background-image: -ms-linear-gradient(top, #2ed9ba, #37b07f);
+    background-image: -o-linear-gradient(top, #2ed9ba, #37b07f);
+    background-image: linear-gradient(to bottom, #2ed9ba, #37b07f);
+}
