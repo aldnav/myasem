@@ -70,11 +70,11 @@ var run = {
 		error = [];
 		for (var i = 0; i < machine_code.length; i++) {
 			err = run.translation_error(machine_code[i], i+1);
-			if (typeof err !== 'undefined') {
+			if (typeof err != 'undefined') {
 				error.push(err);
 			}
 		};
-		if (error.length > 1)
+		if (error.length > 0)
 			return {'type' : 'error', 'data' : error};
 		else 
 			return {'type' : 'mla', 'data' : machine_code};
@@ -90,16 +90,18 @@ var run = {
 		return output;
 	},
 	translation_error : function (token, line) {
-		console.log(token)
 		token1 = token.split(" ")[0].trim();
 		token2 = token.split(" ")[1].trim();
-		console.log(token1,token2);
+		console.log(token1, token2, line,"fuck")
 		if (token1 == '99')
 			return 'error 99: command not found: \tat line ' + line;
 		else if (token2 == 'e99')
 			return 'error 100: parameter not in 2 bit \tat line ' + line;
 		else if (token2 == '0-1')
 			return 'error 0-1: label not found \tat line ' + line;
+		else if (token1 !== "00" && token2 !== "00" && line == 1) {
+			return 'error 00: begin not found \tat line ' + line;
+		} 
 	}
 }
 
@@ -109,8 +111,6 @@ var compile = {
 	run : function() {
 		resources.memory = new Array(40);
 
-		// var m = _commands['02']({'mla':compile.mla,'ip': 14});
-		// // console.log(m);
 		var mla_element = $("#mla");
 		mla_element.empty();
 		for (var i = 0; i < compile.mla.length; i++) {
