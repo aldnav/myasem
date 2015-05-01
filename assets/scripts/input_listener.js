@@ -117,6 +117,13 @@ var run = {
 		pom.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
 		pom.setAttribute("download", filename);
 		return pom.click();
+	},
+	reeset : function () {
+		$('textarea').val("");
+		var e = jQuery.Event("keydown");
+		$('textarea').trigger(e);
+		$('textarea').focus();
+		compile.mla = []
 	}
 }
 
@@ -196,6 +203,12 @@ var key_listeners = {
 			    			run.save();
 			    			break;
 			    		}
+			    		case 69: {
+			    		// how did you forget this key, kev?
+			    			e.preventDefault();
+			    			run.reeset();
+			    			break;
+			    		}
 			    	}
 	    		}
 		    });
@@ -207,13 +220,9 @@ var key_listeners = {
 	    	e.preventDefault();
 	    	run.save();
 	    });
-	    $('.btn.btn-black').on('click', function(e) {
+	    $('#reset-btn').on('click', function(e) {
 	    	e.preventDefault();
-	    	$('textarea').val("");
-	    	var e = jQuery.Event("keydown");
-	    	$('textarea').trigger(e);
-	    	$('textarea').focus();
-	    	compile.mla = []
+	    	run.reeset();
 	    });
 	},
 	miscellaneous : function() {
