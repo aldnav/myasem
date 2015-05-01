@@ -3,7 +3,8 @@ var run = {
 	build : function() {
 		resources.memory = new Array(40);
 		resources.ram = [];
-
+		wait = false;
+		input_error =false;
 		var m = run.get_output();
 		var translation_output = run.translation(m);
 		if (translation_output['type'] == 'error'){
@@ -127,6 +128,10 @@ var compile = {
 			console.log(resources.ram);	
       		if (res['type'] == 'end' || res['type'] == 'error') {
       			clearInterval(interval);
+      		} else if(input_error == true){
+      			clearInterval(interval);
+				var er = "<div class = 'console-line'><span class = 'error'>Input error</span></div>";
+				$('#console').append(er);      			
       		} else if(wait == true){
       			console.log("wait");
       		} else if (i == 0) {

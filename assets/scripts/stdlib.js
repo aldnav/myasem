@@ -1,4 +1,4 @@
-var input = "";
+var input_error = false;
 var wait = false;
 var symbol_table = {
 	'read':  "01",
@@ -70,7 +70,10 @@ var _commands = {
 	            var array_index = params['mla'][params['ip']].split(" ")[1];
 	            console.log($(this).text());
 				resources.memory[array_index] = $(this).text();
-	            wait = false;
+	            if (!isNumeric($(this).text()) || parseInt($(this).text()) > 99) {
+	            	input_error = true;	
+	            }
+	            wait =false;
 	        }
 	    });      
 		return {'type': 'done', 'message':'success','ip' : parseInt(params['ip']) +1};
