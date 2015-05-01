@@ -199,9 +199,13 @@ var key_listeners = {
 			    	}
 	    		}
 		    });
-	    $('.btn.btn-blue').on('click', function(e) {
+	    $('#run-btn').on('click', function(e) {
 	    	e.preventDefault();
 	    	run.build();
+	    });
+	    $('#save-btn').on('click', function(e) {
+	    	e.preventDefault();
+	    	run.save();
 	    });
 	    $('.btn.btn-black').on('click', function(e) {
 	    	e.preventDefault();
