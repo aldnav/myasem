@@ -146,7 +146,8 @@ var _commands = {
 	},
 	// jmp
 	'07' : function(params) {
-		console.log("fuck");
+		var next_pointer = params['mla'][params['ip']].split(" ")[1];
+		return {'type': 'done', 'message':'success','ip' : next_pointer};
 	},
 	// jl
 	'08' : function(params) {
@@ -256,6 +257,9 @@ var _commands = {
 			return {'type': 'wait', 'message':'success','ip' : parseInt(params['ip']) +1};
 		}
 	},
+	'15' : function(params) {
+		return {'type': 'done', 'message':'success','ip' : parseInt(params['ip']) +1};
+	}, 
 	return_error : function(params) {
 		// console.log('error');
 		return params;

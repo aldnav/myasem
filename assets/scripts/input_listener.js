@@ -3,6 +3,7 @@ var run = {
 	build : function() {
 		resources.memory = new Array(40);
 		resources.ram = [];
+
 		var m = run.get_output();
 		var translation_output = run.translation(m);
 		if (translation_output['type'] == 'error'){
@@ -15,10 +16,9 @@ var run = {
 				compile.mla = translation_output['data'];
 				compile.run();
 		}
-
 	},
 	translation : function(token) {
-		var machine_code = new Array(token.length)
+		var machine_code = new Array(token.length);
 		for (var i = 0; i < token.length; i++) {
 			if (typeof symbol_table[token[i].split(" ")[0]] !== 'undefined') {
 				if (token[i].split(" ").length === 1) {
@@ -57,9 +57,9 @@ var run = {
 			} else {
 				if (token[i].indexOf(":") > 0) {
 					if (i <10) {
-						machine_code[i] = "0" + i+ " 00";
+						machine_code[i] = "15 0" + i;
 					} else {
-						machine_code[i] = i + " 00";
+						machine_code[i] = "15 " + i;
 					}					
 				} else {
 					machine_code[i] = symbol_table['error'] + " 00";
@@ -89,6 +89,7 @@ var run = {
 		return output;
 	},
 	translation_error : function (token, line) {
+		console.log(token)
 		token1 = token.split(" ")[0].trim();
 		token2 = token.split(" ")[1].trim();
 		console.log(token1,token2);
@@ -110,26 +111,27 @@ var compile = {
 		// var m = _commands['02']({'mla':compile.mla,'ip': 14});
 		// // console.log(m);
 		var mla_element = $("#mla");
+		mla_element.empty();
 		for (var i = 0; i < compile.mla.length; i++) {
 			mla_element.append("<span class = 'alert'>"+compile.mla[i]+"</span>")
 		};
 
 		var id_mla_class = $("#mla span");
-		// for (var i = 0; i < id_mla_class.length; i++) {
-		// 	$(id_mla_class[i]).css("background-color","rgba(118, 138, 158, 0.1)");
-		// 	console.log($(id_mla_class[i]));
-		// };
+		$(id_mla_class[0]).css("background-color","rgba(118, 138, 158, 0.1)");
+		
 		i = 0;
 		var com = compile.mla[i].split(" ")[0];
 		var res = _commands[com]({'mla':compile.mla,'ip': i});
-		$(id_mla_class[0]).css("background-color","rgba(118, 138, 158, 0.1)");
 		var interval = setInterval(function() {
+			$(id_mla_class[i]).css("background-color","rgba(118, 138, 158, 0.1)");
 			console.log(resources.ram);	
       		if (res['type'] == 'end' || res['type'] == 'error') {
       			clearInterval(interval);
       		} else if(wait == true){
       			console.log("wait");
-      		} else {
+      		} else if (i == 0) {
+      			i++;
+      		}else {
 				console.log(com,res);
       			com = compile.mla[res['ip']].split(" ")[0];
       			i = res['ip'];
@@ -137,12 +139,9 @@ var compile = {
       			$(id_mla_class).css("background","none");
       			$(id_mla_class[i]).css("background-color","rgba(118, 138, 158, 0.1)");
       		}
-		}, 1000);
+		}, 500);
 		$(id_mla_class).css("background","none");
-		// for (var i = 0; i < compile.mla.length; i++) {
-		// 	var com = compile.mla[i].split(" ")[0];
-		// 	console.log(_commands[com]({'mla':compile.mla,'ip': i}));
-		// };
+		//create text file
 	}, 
 	execute: function(command) {
 
@@ -174,6 +173,17 @@ var key_listeners = {
 			    	}
 	    		}
 		    });
+	    $('.btn.btn-blue').on('click', function(e) {
+	    	e.preventDefault();
+	    	run.build();
+	    });
+	    $('.btn.btn-black').on('click', function(e) {
+	    	e.preventDefault();
+	    	$('textarea').val("");
+	    	var e = jQuery.Event("keydown");
+	    	$('textarea').trigger(e);
+	    	$('textarea').focus();
+	    });
 	},
 	miscellaneous : function() {
 		$(document).keydown(function(e) {
